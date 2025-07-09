@@ -120,3 +120,20 @@ docker network create --subnet '192.168.112.0/20' --gateway '192.168.112.1'
 >Lista recursos de memoria e processamento sendo utilizado pelos containers
 `docker stats`  
 `docker stats container_name_ou_id`
+
+>Subindo container com volume local (Atenção o path local deve ser absoluto por isso use a var $PWD)
+`docker run -d --name meu_container -v $PWD/linux:/container_vol --rm alpine tail -f /dev/null`
+
+>Subindo container com o volume somente leitura ($PWD/linux:/container_vol:ro) ready only
+`docker run -d --name meu_container -v $PWD/linux:/container_vol:ro --rm alpine tail -f /dev/null`
+
+>Listando volumes 
+`docker volume ls`  
+
+>Criando volumes 
+`docker volume create novo_volume`  
+
+>Acessando volumes entre containers  
+`docker run -it --name=server -v /home/userx/local:/dir_container alpine`
+`docker run -it --name=client -v --volumes-from server alpine`
+`docker run -it --name=client -v --volumes-from server:ro alpine`
