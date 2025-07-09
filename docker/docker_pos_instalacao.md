@@ -1,21 +1,21 @@
 # Docker pos install
+--- 
 
-```sh
+### Adicionando usuario ao grupo docker
+1. Criando  o grupo docker caso nao exista
 
-#Cria um grupo do docker 
-sudo groupadd docker
+```$ sudo groupadd docker```
 
-#Adciona o usuario ao grupo do docker para nao precisar executar sudo antes dos comandos.
-sudo usermod -aG docker $USER
+2. Adicionando usuario ao grupo docker
 
-# Inicializar o docker no ubuntu
-sudo service docker start
+```$ sudo usermod -aG docker $USER```
 
-#Testa se a instalação esta ok 
-docker run hello-world
+3. Usando o "newgrp" para nao precisar relogar/reiniciar
 
-#Verifica o status do serviço 
-sudo service docker status
+```newgrp docker```
 
+4. Testando se o docker pode ser executado fora do usuario root
 
-```
+```$ docker run hello-world```
+
+5. Se nao funcionar tente reiniciar

@@ -34,6 +34,7 @@
 
 > executa um comando sem entrar no container  
 `docker exec meu_container cat /etc/passwd`  
+`docker exec -it meu_container sh -c "cat /etc/hostname"`
 
 >Lista imagens filtrando por imagens sem tag_name "<none>" ou que nao estao em uso dangling(pendurada)   
 `docker images -f "dangling=true" -a`  
@@ -79,3 +80,43 @@
 
 >Restaurando backup do mysql
 `cat backup.sql | docker exec -i container_name_ou_id /usr/bin/mysql -u username --password=password database_name`
+
+>Lista as redes criadas  
+`docker network ls`
+
+> Cria uma rede para o docker  
+`docker network create nomedarede `
+
+> Desconecta o container da rede  
+`docker network disconnect nomedarede container`
+
+>Criando uma rede com mais dados   
+```sh 
+docker network create --subnet '192.168.112.0/20' --gateway '192.168.112.1' 
+--label 'com.docker.compose.network'=default
+--label 'com.docker.compose.prokect=allapps' allapps_default 
+```
+
+>Parando todos os containers 
+`docker stop $(docker ps -a -q)`
+
+>Lista o local onde foi montado o volume
+`docker inspect d93fe633dcb8 -f {{.Mounts}}`
+
+> Copiando arquivo para um container
+`docker cp /path/filename container_name_ou_id:/path/container/`
+
+>Criando container mas limitando o uso de memoria
+`docker run -ti --memory 512m --name novo_teste debian`
+
+>Alterando a quantidade de memoria do container
+`docker update --memory 256m novo_teste ou container_id`
+
+>Criando 3 containers limitando o uso de processamento   
+`docker run -ti --cpu-shares 1024 --name container1 debian`  
+`docker run -ti --cpu-shares 512 --name container2 debian`  
+`docker run -ti --cpu-shares 512 --name container3 debian`  
+
+>Lista recursos de memoria e processamento sendo utilizado pelos containers
+`docker stats`  
+`docker stats container_name_ou_id`
